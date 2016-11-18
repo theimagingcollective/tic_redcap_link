@@ -52,7 +52,7 @@ def redcap_check(project_name, json_filename, ini_filename):
     except redcap.RedcapError:
         print('Unable to connect to TSI RedCap')
 
-    print('Connected to RedCap project {a}'.format(a=project))
+    print('Connected to RedCap project {a}'.format(a=project_name))
 
     # ~~~~~~~~~~~~~~  export records and dump to CSV file ~~~~~~~~~~~~~~~~~~~~~~~
 

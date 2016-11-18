@@ -37,6 +37,8 @@ def redcap_upload(project_name, json_filename, ini_filename):
 
     jfilep.close()
 
+    print('read JSON file OK')
+
     # ~~~~~~~~~~~~~  read API keys from config file ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     api_token = gapi.get_api_key(ini_filename, project_name)
@@ -45,6 +47,7 @@ def redcap_upload(project_name, json_filename, ini_filename):
         print('Cannot find API key in INI file for the project name specified!')
         sys.exit(1)
 
+    print('api_token=',api_token)
     # ~~~~~~~~~~~~~  connect to Redcap project  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
@@ -55,7 +58,7 @@ def redcap_upload(project_name, json_filename, ini_filename):
         print('Unable to connect to TSI RedCap')
         sys.exit(1)
 
-    print('Project =', project)
+    print('Project =', project_name)
     print('subject_id=', jdict['subject_id'])
 
     # ~~~~~ upload dictionary one item at the time so error can be identified, ~~~~~
