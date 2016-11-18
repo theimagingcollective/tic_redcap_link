@@ -6,13 +6,13 @@ Upload JSON file of analysis results to Redcap
 
 ### usage:
 
- import redcap_upload as rcu
- rcu.redcap_upload 'Project Name' 'JSON file' 'INI file'
+import redcap_upload as rcu
+
+rcu.redcap_upload 'Project Name' 'JSON file' 'INI file'
    
 where 'Project Name' is one of :  CENC, Issues, CAHtest1 (until others are added)
    
 and 'JSON file' looks like this:
-   
    
 ```
    {
@@ -37,8 +37,9 @@ Download all records in Redcap that match the one in a supplied JSON file
 
 ### usage:
 
- import redcap_check as rcc
- rcc.redcap_check 'ProjectName' 'JSON file' 'INI file'
+import redcap_check as rcc
+
+rcc.redcap_check 'ProjectName' 'JSON file' 'INI file'
     
 where arguments are the same as for redcap_upload
     
