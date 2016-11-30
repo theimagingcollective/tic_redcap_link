@@ -1,10 +1,10 @@
-.. redcap_link documentation master file, created by
-   sphinx-quickstart on Fri Nov 18 14:52:44 2016.
+.. tic_redcap_link documentation master file, created by
+   sphinx-quickstart on Wed Nov 30 17:09:26 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to redcap_link's documentation!
-=======================================
+Welcome to tic_redcap_link's documentation!
+===========================================
 
 Contents:
 

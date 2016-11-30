@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # tic_redcap_link documentation build configuration file, created by
-# sphinx-quickstart on Fri Nov 18 14:52:44 2016.
+# sphinx-quickstart on Wed Nov 30 17:09:26 2016.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -17,9 +17,9 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
-sys.path.insert(0, os.path.abspath('../../redcap_link'))
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath('.'))
 
 # -- General configuration ------------------------------------------------
 
@@ -238,7 +238,7 @@ html_static_path = ['_static']
 # html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'redcap_linkdoc'
+htmlhelp_basename = 'tic_redcap_linkdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -264,7 +264,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'tic_redcap_link.tex', 'redcap\\_link Documentation',
+    (master_doc, 'tic_redcap_link.tex', 'tic\\_redcap\\_link Documentation',
      'Craig Hamilton', 'manual'),
 ]
 

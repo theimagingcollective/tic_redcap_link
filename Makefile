@@ -91,9 +91,9 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/redcap_link.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/tic_redcap_link.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/redcap_link.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/tic_redcap_link.qhc"
 
 .PHONY: applehelp
 applehelp:
@@ -110,8 +110,8 @@ devhelp:
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/redcap_link"
-	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/redcap_link"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/tic_redcap_link"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/tic_redcap_link"
 	@echo "# devhelp"
 
 .PHONY: epub
@@ -223,3 +223,10 @@ dummy:
 	$(SPHINXBUILD) -b dummy $(ALLSPHINXOPTS) $(BUILDDIR)/dummy
 	@echo
 	@echo "Build finished. Dummy builder generates no files."
+
+BUILDDIR      = ./
+
+html:
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)
+	@echo
+	@echo "Build finished. The HTML pages are in $(BUILDDIR)"
