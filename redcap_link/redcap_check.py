@@ -10,6 +10,7 @@ import pandas as pd
 from collections import OrderedDict
 from io import StringIO
 import redcap
+import os
 
 
 def redcap_check(project_name, json_filename, ini_filename):
@@ -76,6 +77,8 @@ def redcap_check(project_name, json_filename, ini_filename):
 if __name__ == "__main__":
     # ~~~~~~~~~~~~~~   parse command line   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    redcap_path = os.path.dirname(os.path.abspath(__file__))
+
     parser = argparse.ArgumentParser(
         usage="redcap_check <RedCapProjectName> <JSONfile> <INIfile>",
         description="redcap_check: download JSON data from selected RedCap project")
@@ -83,8 +86,9 @@ if __name__ == "__main__":
                         help="name of RedCap project [CENC, Issues, CAHtest1]")
     parser.add_argument("jsonfile", type=str,
                         help="JSON file specifying records to download")
-    parser.add_argument("inifile", type=str,
-                        help="file containing Redcap project API keys")
+    parser.add_argument("--inifile", type=str,
+                        help="file containing Redcap project API keys",
+                        default=os.path.abspath(os.path.join(redcap_path, 'upcap.ini')))
 
     args = parser.parse_args()
 

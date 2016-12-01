@@ -9,6 +9,7 @@ import get_api_key as gapi
 import json
 from collections import OrderedDict
 import redcap
+import os
 
 
 def redcap_upload(project_name, json_filename, ini_filename):
@@ -80,15 +81,18 @@ if __name__ == "__main__":
 
     # ~~~~~~~~~~~~~~   parse command line   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    redcap_path = os.path.dirname(os.path.abspath(__file__))
+
     parser = argparse.ArgumentParser(
         usage="redcap_upload <RedCapProjectName> <JSONfile> <INIfile>",
         description="redcap_upload: upload JSON data to selected RedCap project")
     parser.add_argument("project", type=str,
-                        help="name of RedCap project (CENC, Issues")
+                        help="name of RedCap project (CENC, Issues)"),
     parser.add_argument("jsonfile", type=str,
                         help="JSON file to upload")
-    parser.add_argument("inifile", type=str,
-                        help="file containing Redcap project API keys")
+    parser.add_argument("--inifile", type=str,
+                        help="file containing Redcap project API keys",
+                        default=os.path.abspath(os.path.join(redcap_path,'upcap.ini')))
 
     args = parser.parse_args()
 
