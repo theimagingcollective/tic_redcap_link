@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 export TIC_REDCAP_LINK_PATH='/Users/bkraft/PycharmProjects/tic_redcap_link'  # Add path information here
 export TIC_REDCAP_LINK_PYTHONPATH=${TIC_REDCAP_LINK_PATH}/redcap_link
