@@ -50,8 +50,12 @@ def redcap_upload(project_name, json_filename, ini_filename):
 
     print('api_token=',api_token)
     # ~~~~~~~~~~~~~  connect to Redcap project  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    # INTERNAL redcap:
+    # api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
 
-    api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
+    # EXTERNAL redcap:
+    api_url = 'https://redcap.wakehealth.edu/redcap/api/'
 
     try:
         project = redcap.Project(api_url, api_token)
