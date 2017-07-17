@@ -4,12 +4,12 @@
 # CAHamilton
 
 import sys
+import os
 import argparse
-import get_api_key as gapi
+from redcap_link.get_api_key import get_api_key
 import json
 from collections import OrderedDict
 import redcap
-import os
 
 
 def redcap_upload(project_name, json_filename, ini_filename):
@@ -26,6 +26,11 @@ def redcap_upload(project_name, json_filename, ini_filename):
 
     """
 
+    redcap_path = os.path.dirname(os.path.abspath(__file__))
+    defaultini = os.path.abspath(os.path.join(redcap_path,'upcap.ini'))
+    if ini_filename=='':
+        ini_filename=defaultini
+
     # ~~~~~~~~~~~~~  read the JSON file into a dictionary ~~~~~~~~~~~~~~~~~~~~~
 
     try:
@@ -36,26 +41,33 @@ def redcap_upload(project_name, json_filename, ini_filename):
 
     jdict = json.load(jfilep, object_pairs_hook=OrderedDict)
 
+    print('jdict = ', jdict)
+
     jfilep.close()
 
     print('read JSON file OK')
 
     # ~~~~~~~~~~~~~  read API keys from config file ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    api_token = gapi.get_api_key(ini_filename, project_name)
+    api_token = get_api_key(ini_filename, project_name)
 
     if api_token == '000':
         print('Cannot find API key in INI file for the project name specified!')
         sys.exit(1)
 
     print('api_token=',api_token)
+
     # ~~~~~~~~~~~~~  connect to Redcap project  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    # INTERNAL redcap:
-    # api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
-
-    # EXTERNAL redcap:
-    api_url = 'https://redcap.wakehealth.edu/redcap/api/'
+    if project_name=='cahtest1' or project_name=='UPBEAT_QA' or project_name=='issues':
+        api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
+        print('Using internal Redcap')
+    elif project_name=='cenc':
+        api_url = 'https://redcap.wakehealth.edu/redcap/api/'
+        print('Using external Redcap')
+    else:  
+        print('Unknown project name: ',project_name)
+        sys.exit(1)
 
     try:
         project = redcap.Project(api_url, api_token)
