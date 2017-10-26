@@ -5,7 +5,7 @@
 import sys
 import argparse
 import json
-import get_api_key as gapi
+from redcap_link.get_api_key import get_api_key
 import pandas as pd
 from collections import OrderedDict
 from io import StringIO
@@ -37,7 +37,7 @@ def redcap_check(project_name, json_filename, ini_filename):
 
     # ~~~~~~~~~~~~~  read API keys from config file ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    api_token = gapi.get_api_key(ini_filename, project_name)
+    api_token = get_api_key(ini_filename, project_name)
 
     if api_token == '000':
         print('Cannot find API key in INI file for the project name specified!')
@@ -45,8 +45,17 @@ def redcap_check(project_name, json_filename, ini_filename):
 
     # ~~~~~~~~~~~~~~~~ connect to project ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
-
+    api_url = 'https://redcap.wakehealth.edu/redcap/api/'
+    if project_name=='cahtest1' or project_name=='UPBEAT_QA' or project_name=='issues':
+        api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
+        print('Using internal Redcap')
+    elif project_name=='cenc':
+        api_url = 'https://redcap.wakehealth.edu/redcap/api/'
+        print('Using external Redcap')
+    else:  
+        print('Unknown project name: ',project_name)
+        sys.exit(1)
+    
     project = 'empty'
     try:
         project = redcap.Project(api_url, api_token)
