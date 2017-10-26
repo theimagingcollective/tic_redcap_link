@@ -59,7 +59,7 @@ def redcap_upload(project_name, json_filename, ini_filename):
 
     # ~~~~~~~~~~~~~  connect to Redcap project  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    if project_name=='cahtest1' or project_name=='UPBEAT_QA' or project_name=='issues':
+    if project_name=='cahtest1' or project_name=='UPBEAT_QA' or project_name=='issues' or project_name=='MSK':
         api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
         print('Using internal Redcap')
     elif project_name=='cenc':
