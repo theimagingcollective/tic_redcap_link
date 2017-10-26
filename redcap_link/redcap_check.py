@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #  redcapcheck:  download all records like the one in the specified JSON file
 # CAHamilton  10/24/16
 
