@@ -58,14 +58,14 @@ def redcap_upload(project_name, json_filename, ini_filename):
     print('api_token=',api_token)
 
     # ~~~~~~~~~~~~~  connect to Redcap project  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     if project_name=='cahtest1' or project_name=='UPBEAT_QA' or project_name=='issues' or project_name=='MSK':
         api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
         print('Using internal Redcap')
     elif project_name=='cenc':
         api_url = 'https://redcap.wakehealth.edu/redcap/api/'
         print('Using external Redcap')
-    else:  
+    else:
         print('Unknown project name: ',project_name)
         sys.exit(1)
 
@@ -129,4 +129,4 @@ if __name__ == "__main__":
     print('jsonfile= ', args.jsonfile)
     print('inifile= ', args.inifile)
 
-    redcap_upload(args.project, args.jsonfile, args.inifile)
+redcap_upload(args.project, args.jsonfile, args.inifile)
