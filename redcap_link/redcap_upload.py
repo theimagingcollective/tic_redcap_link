@@ -1,15 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # redcap_upload:  upload JSON results to Redcap
 # CAHamilton
 
 import sys
+import os
 import argparse
-import get_api_key as gapi
+from redcap_link.get_api_key import get_api_key
 import json
 from collections import OrderedDict
 import redcap
-import os
 
 
 def redcap_upload(project_name, json_filename, ini_filename):
@@ -26,6 +26,11 @@ def redcap_upload(project_name, json_filename, ini_filename):
 
     """
 
+    redcap_path = os.path.dirname(os.path.abspath(__file__))
+    defaultini = os.path.abspath(os.path.join(redcap_path,'upcap.ini'))
+    if ini_filename=='':
+        ini_filename=defaultini
+
     # ~~~~~~~~~~~~~  read the JSON file into a dictionary ~~~~~~~~~~~~~~~~~~~~~
 
     try:
@@ -36,22 +41,33 @@ def redcap_upload(project_name, json_filename, ini_filename):
 
     jdict = json.load(jfilep, object_pairs_hook=OrderedDict)
 
+    print('jdict = ', jdict)
+
     jfilep.close()
 
     print('read JSON file OK')
 
     # ~~~~~~~~~~~~~  read API keys from config file ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    api_token = gapi.get_api_key(ini_filename, project_name)
+    api_token = get_api_key(ini_filename, project_name)
 
     if api_token == '000':
         print('Cannot find API key in INI file for the project name specified!')
         sys.exit(1)
 
     print('api_token=',api_token)
-    # ~~~~~~~~~~~~~  connect to Redcap project  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
+    # ~~~~~~~~~~~~~  connect to Redcap project  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    if project_name=='cahtest1' or project_name=='UPBEAT_QA' or project_name=='issues' or project_name=='MSK':
+        api_url = 'http://redcapint.tsi.wfubmc.edu/redcap_int/api/'
+        print('Using internal Redcap')
+    elif project_name=='cenc':
+        api_url = 'https://redcap.wakehealth.edu/redcap/api/'
+        print('Using external Redcap')
+    else:  
+        print('Unknown project name: ',project_name)
+        sys.exit(1)
 
     try:
         project = redcap.Project(api_url, api_token)
@@ -60,19 +76,32 @@ def redcap_upload(project_name, json_filename, ini_filename):
         sys.exit(1)
 
     print('Project =', project_name)
-    print('subject_id=', jdict['subject_id'])
+
+    if project_name == 'MSK':
+        subid = 'acrostic'
+    else:
+        subid = 'subject_id'
+
+    print('subid=', jdict[subid])
+#     print('events = ', project.events)
+    if project.is_longitudinal():
+        print('Longitudinal Visit =', jdict['redcap_event_name'])
 
     # ~~~~~ upload dictionary one item at the time so error can be identified, ~~~~~
     #         note: it needs to be a list
     count = 0
     for key, val in jdict.items():
-        if key != 'subject_id':
+        if key != subid and key != 'redcap_event_name':
 
             count += 1
 
             try:
-                project.import_records([{'subject_id': jdict['subject_id'], key: val}])
-                print('uploading {a} of {b}: {c}'.format(a=count, b=len(jdict)-1, c=key))
+                if project.is_longitudinal():
+                    project.import_records([{subid: jdict[subid], 'redcap_event_name' : jdict['redcap_event_name'], key: val}])
+                else:
+                    project.import_records([{subid: jdict[subid], key: val}])
+
+                print('uploading {a} of {b}: {c}={d}'.format(a=count, b=len(jdict)-2, c=key, d=val))
             except redcap.RedcapError:
                 print('Error uploading item {a}: {b}'.format(a=count, b=key))
 
