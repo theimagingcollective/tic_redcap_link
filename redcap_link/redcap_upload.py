@@ -101,7 +101,7 @@ def redcap_upload(project_name, json_filename, ini_filename):
                 else:
                     project.import_records([{subid: jdict[subid], key: val}])
 
-                print('uploading {a} of {b}: {c}={d}'.format(a=count, b=len(jdict)-2, c=key, d=val))
+                print('uploading {a} of {b}: {c}={d}'.format(a=count, b=len(jdict)-1, c=key, d=val))
             except redcap.RedcapError:
                 print('Error uploading item {a}: {b}'.format(a=count, b=key))
 
